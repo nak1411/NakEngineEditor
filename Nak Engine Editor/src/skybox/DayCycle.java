@@ -16,8 +16,6 @@ public class DayCycle {
 
 	public void updateCycle(List<Light> lights) {
 
-		//System.out.println(getSkyColor());
-
 		time += DisplayManager.getFrameTimeSeconds() * 1000;
 		time %= 24000;
 

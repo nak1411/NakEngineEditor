@@ -6,7 +6,6 @@ import java.util.Random;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
@@ -61,17 +60,17 @@ public class TerrainEditor {
 
 		TexturedModel grass01 = new TexturedModel(OBJLoader.loadObjModel("grassModel", "blend", loader), new ModelTexture(loader.loadTexture("grassTexture")));
 		grass01.getModelTexture().setHasTransparency(true);
-		
+
 		TexturedModel box01 = new TexturedModel(OBJLoader.loadObjModel("box", "blend", loader), new ModelTexture(loader.loadTexture("box")));
 		box01.getModelTexture().setHasTransparency(true);
 
 		/*
 		 * ENTITY SETUP
 		 */
-		
+
 		List<Entity> entities = new ArrayList<Entity>();
 		Random rand = new Random(783355);
-		//Fern Entities Random Placement
+		// Fern Entities Random Placement
 		for (int i = 0; i < 800; i++) {
 			if (i % 1 == 0) {
 				float x = rand.nextFloat() * 800;
@@ -88,20 +87,20 @@ public class TerrainEditor {
 		List<Light> lights = new ArrayList<Light>();
 		Light sun = new Light(new Vector3f(1000, 1000, -400), new Vector3f(1.3f, 1.3f, 1.3f));
 		lights.add(sun);
-		
-		entities.add(0, new Entity(box01, 0, new Vector3f(lights.get(0).getPosition().x, lights.get(0).getPosition().y, lights.get(0).getPosition().z), 0, 0, 0, 20));
 
+		entities.add(0, new Entity(box01, 0, new Vector3f(lights.get(0).getPosition().x, lights.get(0).getPosition().y, lights.get(0).getPosition().z), 0, 0, 0, 20));
 
 		/*
 		 * CREATE GUI
 		 */
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
-		//GuiTexture shadowMap = new GuiTexture(renderer.getShadowMapTexture(), new Vector2f(0, 0), new Vector2f(0.5f, 0.5f));
+		// GuiTexture shadowMap = new GuiTexture(renderer.getShadowMapTexture(),
+		// new Vector2f(0, 0), new Vector2f(0.5f, 0.5f));
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 
 		/****************
-		 ***START LOOP***
+		 *** START LOOP***
 		 ****************/
 		int fps = 0;
 		long lastFps;
@@ -109,53 +108,53 @@ public class TerrainEditor {
 		boolean prevState = false;
 
 		while (!Display.isCloseRequested()) {
-		/**
-		 * FPS Counter
-		 */
+			/**
+			 * FPS Counter
+			 */
 			if (DisplayManager.getCurrentTime() - lastFps > 1000) {
 				editor.updateFps(fps);
 				fps = 0;
 				lastFps += 1000;
 			}
 			fps++;
-		/********************************/ 	
+			/********************************/
 
-		/**
-		 * UPDATES
-		 */
+			/**
+			 * UPDATES
+			 */
 			camera.move();
 			picker.update();
 			renderer.renderShadowMap(entities, sun);
 			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, 1, 0, 0));
-		/**
-		 * UPDATE STATS
-		 */
+			/**
+			 * UPDATE STATS
+			 */
 			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
 			if (terrainPoint != null) {
 				editor.updateStats(camera.getPosition().x, camera.getPosition().y, camera.getPosition().z, terrainPoint.x, terrainPoint.y, terrainPoint.z);
 			}
-			
-		/**
-		 * LIGHT PLACEMENT
-		 */
+
+			/**
+			 * LIGHT PLACEMENT
+			 */
 			if (terrainPoint != null && Mouse.isButtonDown(0) && !prevState) {
 				lights.add(new Light(terrainPoint.translate(0, editor.getLightHeight(), 0), editor.getLightColor(), editor.getAttenuation()));
 			}
 			prevState = Mouse.isButtonDown(0);
 
 			entities.get(0).setPosition(new Vector3f(lights.get(0).getPosition().x, lights.get(0).getPosition().y, lights.get(0).getPosition().z));
-		/**
-		 * FINAL TASKS	
-		 */
+			/**
+			 * FINAL TASKS
+			 */
 			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1, 0, 100000));
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
-		
-	/**
-	 * CLEANUP
-	 */
+
+		/**
+		 * CLEANUP
+		 */
 		renderer.cleanUp();
 		loader.cleanUp();
 		guiRenderer.cleanUp();
