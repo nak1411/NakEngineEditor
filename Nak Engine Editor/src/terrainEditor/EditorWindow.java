@@ -16,7 +16,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
@@ -44,9 +43,6 @@ public class EditorWindow extends Canvas implements Runnable {
 	JLabel mouseZ = new JLabel();
 	JSlider lightHeightSlider = new JSlider();
 	JSlider attenuationSlider = new JSlider();
-	private JTextField redC;
-	private JTextField greenC;
-	private JTextField blueC;
 	DecimalFormat df;
 
 	TerrainEditorTemp terrainEditorPanel;
@@ -192,18 +188,6 @@ public class EditorWindow extends Canvas implements Runnable {
 
 	public Vector3f getAttenuation() {
 		return new Vector3f(1.0f, attenuationSlider.getValue() / 10.0f, attenuationSlider.getValue() / 10.0f);
-	}
-
-	public Vector3f getLightColor() {
-		color = new Vector3f(0, 0, 0);
-		if (!redC.getText().isEmpty() && !greenC.getText().isEmpty() && !blueC.getText().isEmpty()) {
-			color.x = Integer.parseInt(redC.getText());
-			color.y = Integer.parseInt(greenC.getText());
-			color.z = Integer.parseInt(blueC.getText());
-			return color;
-		} else {
-			return new Vector3f(0, 0, 0);
-		}
 	}
 
 	public void updateStats(float camX, float camY, float camZ, float mX, float mY, float mZ) {

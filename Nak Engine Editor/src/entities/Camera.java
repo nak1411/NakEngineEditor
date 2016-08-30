@@ -6,10 +6,11 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 
-	private Vector3f position = new Vector3f(300, 100, 0);
+	private Vector3f position = new Vector3f(100, 20, -100);
 	private float pitch = 0;
 	private float yaw = 0;
 	private float roll;
+	private float speed = 0.3f;
 
 	public Camera() {
 
@@ -51,30 +52,30 @@ public class Camera {
 			yaw += yawChange;
 		}
 	}
-	
+
 	private void checkInputs() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			position.x += (float)Math.sin(Math.toRadians(yaw));
-		    position.z -= (float)Math.cos(Math.toRadians(yaw));
+			position.x += (float) Math.sin(Math.toRadians(yaw)) * speed;
+			position.z -= (float) Math.cos(Math.toRadians(yaw)) * speed;
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			position.x -= (float)Math.sin(Math.toRadians(yaw));
-		    position.z += (float)Math.cos(Math.toRadians(yaw));
+			position.x -= (float) Math.sin(Math.toRadians(yaw)) * speed;
+			position.z += (float) Math.cos(Math.toRadians(yaw)) * speed;
 		}
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			position.x -= (float)Math.sin(Math.toRadians(yaw-90));
-			position.z += (float)Math.cos(Math.toRadians(yaw-90));
+			position.x -= (float) Math.sin(Math.toRadians(yaw - 90)) * speed;
+			position.z += (float) Math.cos(Math.toRadians(yaw - 90)) * speed;
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			position.x += (float)Math.sin(Math.toRadians(yaw-90));
-			position.z -= (float)Math.cos(Math.toRadians(yaw-90));
+			position.x += (float) Math.sin(Math.toRadians(yaw - 90)) * speed;
+			position.z -= (float) Math.cos(Math.toRadians(yaw - 90)) * speed;
 		}
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			position.y += 1;
+			position.y += speed;
 		}
-		
+
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-			position.y -= 1;
+			position.y -= speed;
 		}
 	}
 

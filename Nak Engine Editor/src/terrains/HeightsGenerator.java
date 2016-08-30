@@ -4,8 +4,8 @@ import java.util.Random;
  
 public class HeightsGenerator {
  
-    private static final float AMPLITUDE = 50f;
-    private static final int OCTAVES = 4;
+    private static final float AMPLITUDE = 20f;
+    private static final int OCTAVES = 5;
     private static final float ROUGHNESS = 0.2f;
  
     private Random random = new Random();
@@ -17,7 +17,6 @@ public class HeightsGenerator {
         this.seed = random.nextInt(1000000000);
     }
      
-    //only works with POSITIVE gridX and gridZ values!
     public HeightsGenerator(int gridX, int gridZ, int vertexCount, int seed) {
         this.seed = seed;
         xOffset = gridX * (vertexCount-1);

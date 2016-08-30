@@ -71,10 +71,10 @@ public class TerrainEditor {
 		List<Entity> entities = new ArrayList<Entity>();
 		Random rand = new Random(783355);
 		// Fern Entities Random Placement
-		for (int i = 0; i < 800; i++) {
+		for (int i = 0; i < 200; i++) {
 			if (i % 1 == 0) {
-				float x = rand.nextFloat() * 800;
-				float z = rand.nextFloat() * -800;
+				float x = rand.nextFloat() * 200;
+				float z = rand.nextFloat() * -200;
 				float y = terrain.getHeightOfTerrain(x, z);
 				entities.add(new Entity(fern01, rand.nextInt(4), new Vector3f(x, y, z), 0, rand.nextFloat() * 360, 0, rand.nextFloat() * 0.3f + 0.4f));
 			}
@@ -139,7 +139,7 @@ public class TerrainEditor {
 			 * LIGHT PLACEMENT
 			 */
 			if (terrainPoint != null && Mouse.isButtonDown(0) && !prevState) {
-				lights.add(new Light(terrainPoint.translate(0, editor.getLightHeight(), 0), editor.getLightColor(), editor.getAttenuation()));
+				// Add point lights here
 			}
 			prevState = Mouse.isButtonDown(0);
 

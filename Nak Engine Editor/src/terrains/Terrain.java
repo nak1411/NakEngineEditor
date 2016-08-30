@@ -17,7 +17,7 @@ import toolbox.Maths;
 
 public class Terrain {
 
-	private static final float SIZE = 800;
+	private static final float SIZE = 200;
 
 	private float x;
 	private float z;
@@ -27,8 +27,7 @@ public class Terrain {
 
 	private float[][] heights;
 
-	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap,
-			String heightMap) {
+	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap) {
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
@@ -70,13 +69,9 @@ public class Terrain {
 		float zCoord = (terrainZ % gridSquareSize) / gridSquareSize;
 		float answer;
 		if (xCoord <= (1 - zCoord)) {
-			answer = Maths.barryCentric(new Vector3f(0, heights[gridX][gridZ], 0),
-					new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(0, heights[gridX][gridZ + 1], 1),
-					new Vector2f(xCoord, zCoord));
+			answer = Maths.barryCentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
 		} else {
-			answer = Maths.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0),
-					new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1),
-					new Vector2f(xCoord, zCoord));
+			answer = Maths.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
 		}
 		return answer;
 	}
